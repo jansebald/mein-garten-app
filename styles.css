@@ -111,3 +111,48 @@ li {
 .delete-btn:hover {
     background-color: #d32f2f;
 }
+
+/* Notification Settings Styles */
+.notification-settings {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.notification-settings h3 {
+    color: #388e3c;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.notification-settings label {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.notification-settings label:hover {
+    background-color: #f0f8ff;
+}
+
+.notification-settings input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.notification-settings button {
+    margin-top: 15px;
+    background-color: #2196f3;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.notification-settings button:hover {
+    background-color: #1976d2;
+}
