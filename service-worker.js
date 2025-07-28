@@ -51,20 +51,20 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'Zeit für die Gartenpflege!',
-    icon: '/icon-192x192.png',
-    badge: '/icon-192x192.png',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
     tag: 'garten-erinnerung',
     requireInteraction: true,
     actions: [
       {
         action: 'view',
         title: 'App öffnen',
-        icon: '/icon-192x192.png'
+        icon: '/icon-192.png'
       },
       {
         action: 'dismiss',
         title: 'Später erinnern',
-        icon: '/icon-192x192.png'
+        icon: '/icon-192.png'
       }
     ]
   };
@@ -87,7 +87,7 @@ self.addEventListener('notificationclick', (event) => {
     setTimeout(() => {
       self.registration.showNotification('Gartenpflege Erinnerung', {
         body: 'Vergiss nicht deine Gartenpflege!',
-        icon: '/icon-192x192.png'
+        icon: '/icon-192.png'
       });
     }, 7 * 24 * 60 * 60 * 1000); // 7 Tage
   }
@@ -123,7 +123,7 @@ function showMonthlyReminder() {
 
   return self.registration.showNotification('Monatliche Gartenpflege', {
     body: task,
-    icon: '/icon-192x192.png',
+    icon: '/icon-192.png',
     tag: 'monthly-garden-task'
   });
 }

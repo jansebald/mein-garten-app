@@ -152,7 +152,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = () => {
 
     new Notification('Test-Benachrichtigung', {
       body: 'Push-Benachrichtigungen funktionieren! 🌱',
-      icon: '/icon-192x192.png'
+      icon: '/icon-192.png'
     });
   };
 
@@ -166,13 +166,13 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = () => {
     if (notification) {
       new Notification(notification.title, {
         body: notification.body,
-        icon: '/icon-192x192.png',
+        icon: '/icon-192.png',
         tag: 'smart-test'
       });
     } else {
       new Notification('🌿 Intelligenter Tipp', {
         body: 'Wetterdaten werden geladen...',
-        icon: '/icon-192x192.png'
+        icon: '/icon-192.png'
       });
     }
   };
@@ -191,7 +191,7 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = () => {
       if (notification && permission === 'granted') {
         new Notification(notification.title, {
           body: notification.body,
-          icon: '/icon-192x192.png',
+          icon: '/icon-192.png',
           tag: 'smart-garden-tip'
         });
       }
