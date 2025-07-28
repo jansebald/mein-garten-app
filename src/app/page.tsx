@@ -8,6 +8,7 @@ import { ActivityOverview } from '@/components/cards/ActivityOverview';
 import { PerfectGreenCalendar } from '@/components/cards/PerfectGreenCalendar';
 import { Calculator } from '@/components/cards/Calculator';
 import { LocationSettings } from '@/components/cards/LocationSettings';
+import { NotificationSettings } from '@/components/cards/NotificationSettings';
 import { FertilizerForm } from '@/components/forms/FertilizerForm';
 import { SeedingForm } from '@/components/forms/SeedingForm';
 import { EntryList } from '@/components/forms/EntryList';
@@ -114,6 +115,14 @@ const CalculatorPage: React.FC = () => {
   );
 };
 
+const SettingsPage: React.FC = () => {
+  return (
+    <div className="space-y-6">
+      <NotificationSettings />
+    </div>
+  );
+};
+
 export default function Home() {
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [headerLocation, setHeaderLocation] = useState('Happurg');
@@ -141,6 +150,8 @@ export default function Home() {
         return <WeatherPage />;
       case 'rechner':
         return <CalculatorPage />;
+      case 'einstellungen':
+        return <SettingsPage />;
       default:
         return <Dashboard />;
     }

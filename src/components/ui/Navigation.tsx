@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Home, BookOpen, Cloud, Calculator } from 'lucide-react';
+import { Home, BookOpen, Cloud, Calculator, Settings } from 'lucide-react';
 
 interface NavigationProps {
   currentTab: string;
@@ -13,6 +13,7 @@ const tabs = [
   { id: 'tagebuch', label: 'Tagebuch', icon: BookOpen },
   { id: 'wetter', label: 'Wetter', icon: Cloud },
   { id: 'rechner', label: 'Rechner', icon: Calculator },
+  { id: 'einstellungen', label: 'Einstellungen', icon: Settings },
 ];
 
 export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange }) => {
