@@ -21,8 +21,8 @@ class SmartNotificationService {
 
       // Priorisierte Empfehlungen basierend auf Wetter und Saison
       
-      // 1. Düngung (März, Juni, September)
-      if ([2, 5, 8].includes(month) && this.shouldRecommendFertilizing(weather)) {
+      // 1. Düngung (März, Juni, September) - mit optimalem Zeitfenster
+      if (this.isOptimalFertilizerMonth(month) && this.shouldRecommendFertilizing(weather)) {
         return this.getFertilizerNotification(weather, upcomingRain);
       }
 
@@ -60,7 +60,11 @@ class SmartNotificationService {
         };
       }
 
-      // 5. Allgemeine Monatstipps
+      // 5. Hinweise für Düngung außerhalb optimaler Zeit
+      const fertilizerHint = this.getFertilizerSeasonHint(month, weather);
+      if (fertilizerHint) return fertilizerHint;
+
+      // 6. Allgemeine Monatstipps
       return this.getMonthlyTip(month, weather);
 
     } catch (error) {
@@ -115,6 +119,27 @@ class SmartNotificationService {
     };
   }
 
+  private isOptimalFertilizerMonth(month: number): boolean {
+    const today = new Date();
+    const dayOfMonth = today.getDate();
+    
+    // Optimale Zeitfenster für Düngung:
+    // März: 15. - 31. (Frühjahrsdüngung nach Frostende)
+    // Juni: 1. - 20. (Sommerdüngung vor Hitze)  
+    // September: 1. - 25. (Herbstdüngung vor Winterruhe)
+    
+    switch (month) {
+      case 2: // März
+        return dayOfMonth >= 15; // Ab Mitte März
+      case 5: // Juni  
+        return dayOfMonth <= 20; // Bis Mitte Juni
+      case 8: // September
+        return dayOfMonth <= 25; // Bis Ende September
+      default:
+        return false;
+    }
+  }
+
   private getOptimalFertilizerDate(weather: Weather, month: number): Date | null {
     const today = new Date();
     const forecast = weather.forecast;
@@ -129,13 +154,94 @@ class SmartNotificationService {
       }
     }
     
-    // If no perfect day found, suggest mid-month optimal dates
-    const optimalDates = [15, 20, 25];
+    // Month-specific optimal dates
+    let optimalDates: number[] = [];
+    switch (month) {
+      case 2: // März - nach Frostende
+        optimalDates = [18, 22, 25];
+        break;
+      case 5: // Juni - vor Sommerhitze
+        optimalDates = [5, 10, 15];
+        break;
+      case 8: // September - rechtzeitig vor Winter
+        optimalDates = [8, 15, 20];
+        break;
+    }
+    
     for (const dayOfMonth of optimalDates) {
       const date = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
       if (date > today) {
         return date;
       }
+    }
+    
+    return null;
+  }
+
+  private getFertilizerSeasonHint(month: number, weather: Weather): SmartNotification | null {
+    const today = new Date();
+    const dayOfMonth = today.getDate();
+    const temp = weather.current.temp;
+
+    // Hinweise wenn NICHT die optimale Zeit ist
+    switch (month) {
+      case 2: // März - vor dem 15. zu früh
+        if (dayOfMonth < 15) {
+          return {
+            title: '❄️ Noch zu früh',
+            body: `Frühjahr-Dünger ab 15. März bei >10°C (heute ${temp}°C)`,
+            priority: 'medium',
+            type: 'fertilizer'
+          };
+        }
+        break;
+        
+      case 5: // Juni - nach dem 20. zu spät
+        if (dayOfMonth > 20) {
+          return {
+            title: '🌞 Sommer-Düngung verpasst',
+            body: `Nächste Chance: September 1.-25. bei <25°C`,
+            priority: 'low',
+            type: 'fertilizer'
+          };
+        }
+        break;
+        
+      case 8: // September - nach dem 25. zu spät
+        if (dayOfMonth > 25) {
+          return {
+            title: '🍂 Herbst-Düngung verpasst',
+            body: `Nächste Chance: März 15.-31. nach Frost`,
+            priority: 'low',
+            type: 'fertilizer'
+          };
+        }
+        break;
+        
+      // Hinweise in "falschen" Monaten
+      case 1: // Februar
+        return {
+          title: '⏰ Düngung bald',
+          body: `Frühjahr-Dünger ab 15. März vorbereiten`,
+          priority: 'low',
+          type: 'fertilizer'
+        };
+        
+      case 4: // Mai
+        return {
+          title: '⏰ Sommer-Düngung bald',
+          body: `ProNatura Sommer 1.-20. Juni bei gutem Wetter`,
+          priority: 'low',
+          type: 'fertilizer'
+        };
+        
+      case 7: // August
+        return {
+          title: '⏰ Herbst-Düngung bald',
+          body: `ProNatura Herbst 1.-25. September vorbereiten`,
+          priority: 'low',
+          type: 'fertilizer'
+        };
     }
     
     return null;
