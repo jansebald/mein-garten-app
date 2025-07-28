@@ -28,15 +28,20 @@ h2 {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .tab-btn {
     flex: 1;
-    padding: 10px;
+    min-width: 80px;
+    padding: 8px 4px;
     background-color: #e0e0e0;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 12px;
+    text-align: center;
 }
 
 .tab-btn.active {
@@ -155,4 +160,17 @@ li {
 
 .notification-settings button:hover {
     background-color: #1976d2;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+    .tab-btn {
+        font-size: 10px;
+        padding: 6px 2px;
+        min-width: 60px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
 }
