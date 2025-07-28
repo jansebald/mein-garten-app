@@ -204,11 +204,15 @@ export const PerfectGreenCalendar: React.FC = () => {
       )}
 
       {/* Tips */}
-      <Card title="Profi-Tipps">
+      <Card title="Profi-Tipps" subtitle="Perfect Green Rasenpflege-System">
         <div className="space-y-3 text-sm">
           <div className="flex items-start space-x-2">
             <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
             <p><strong>Temperatur beachten:</strong> Düngen Sie nur bei Bodentemperaturen ab 10°C für optimale Nährstoffaufnahme.</p>
+          </div>
+          <div className="flex items-start space-x-2">
+            <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+            <p><strong>Wetterabhängig:</strong> Die angegebenen Wochen sind Richtwerte - passen Sie die Düngung an das aktuelle Wetter an!</p>
           </div>
           <div className="flex items-start space-x-2">
             <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -221,6 +225,10 @@ export const PerfectGreenCalendar: React.FC = () => {
           <div className="flex items-start space-x-2">
             <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
             <p><strong>Bewässerung:</strong> Bei Hitzeperioden 15 Liter pro m² bewässern, am besten vor Regentagen düngen.</p>
+          </div>
+          <div className="flex items-start space-x-2">
+            <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+            <p><strong>Timing-Flexibilität:</strong> Verschieben Sie Düngungen bei ungünstigen Wetterbedingungen um 1-2 Wochen.</p>
           </div>
         </div>
       </Card>

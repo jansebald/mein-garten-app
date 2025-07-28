@@ -1,20 +1,32 @@
 import { RasenpflegePlan, PerfectGreenSchedule, RasentypenConfig, FertilizerDefaults, SeedDefaults } from '@/types/garden';
 
 export const PERFECT_GREEN_SCHEDULE: PerfectGreenSchedule[] = [
-  // ProNatura Frühjahr
-  { week: 1, month: 'März', fertilizer: 'ProNatura Frühjahr', amount: 40, description: 'Startdüngung für kräftiges Wachstum' },
-  { week: 2, month: 'März', fertilizer: 'ProNatura Frühjahr', amount: 35, description: 'Nachfolgedüngung' },
-  { week: 1, month: 'April', fertilizer: 'ProNatura Frühjahr', amount: 35, description: 'Wachstumsunterstützung' },
-  { week: 1, month: 'Mai', fertilizer: 'ProNatura Frühjahr', amount: 30, description: 'Frühjahrsabschluss' },
-  { week: 2, month: 'Juli', fertilizer: 'ProNatura Frühjahr', amount: 30, description: 'Sommerdüngung' },
+  // März - ProNatura Frühjahr
+  { week: 3, month: 'März', fertilizer: 'ProNatura Frühjahr', amount: 30, description: 'Startdüngung für kräftiges Wachstum (wetterabhängig)' },
   
-  // ProNatura Herbst
-  { week: 2, month: 'Mai', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Übergang zur Herbstdüngung' },
-  { week: 1, month: 'Juni', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Vorbereitung auf Hitze' },
-  { week: 1, month: 'September', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Herbststart' },
-  { week: 3, month: 'September', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Herbstverstärkung' },
-  { week: 1, month: 'Oktober', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Wintervorbereitung' },
-  { week: 1, month: 'November', fertilizer: 'ProNatura Herbst', amount: 20, description: 'Abschlussdüngung' },
+  // April - ProNatura Frühjahr  
+  { week: 2, month: 'April', fertilizer: 'ProNatura Frühjahr', amount: 35, description: 'Frühjahrs-Wachstumsförderung (wetterabhängig)' },
+  
+  // Mai - ProNatura Frühjahr
+  { week: 1, month: 'Mai', fertilizer: 'ProNatura Frühjahr', amount: 40, description: 'Hauptdüngung Frühjahr (wetterabhängig)' },
+  
+  // Juni - ProNatura Herbst
+  { week: 2, month: 'Juni', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Übergang zur Sommerpflege (wetterabhängig)' },
+  
+  // Juli - ProNatura Herbst
+  { week: 3, month: 'Juli', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Sommerdüngung für Hitzeresistenz (wetterabhängig)' },
+  
+  // August - ProNatura Frühjahr
+  { week: 2, month: 'August', fertilizer: 'ProNatura Frühjahr', amount: 30, description: 'Spätsommer-Stärkung (wetterabhängig)' },
+  
+  // September - ProNatura Frühjahr
+  { week: 1, month: 'September', fertilizer: 'ProNatura Frühjahr', amount: 35, description: 'Herbstvorbereitung (wetterabhängig)' },
+  
+  // Oktober - ProNatura Herbst
+  { week: 1, month: 'Oktober', fertilizer: 'ProNatura Herbst', amount: 40, description: 'Wintervorbereitung (wetterabhängig)' },
+  
+  // November - ProNatura Herbst
+  { week: 1, month: 'November', fertilizer: 'ProNatura Herbst', amount: 20, description: 'Abschlussdüngung vor Winter (wetterabhängig)' },
 ];
 
 export const MONTHLY_LAWN_CARE: RasenpflegePlan[] = [
@@ -28,7 +40,7 @@ export const MONTHLY_LAWN_CARE: RasenpflegePlan[] = [
     lueften: false,
     nachsaeen: false,
     duengerTyp: 'ProNatura Frühjahr',
-    duengerMenge: 40
+    duengerMenge: 30
   },
   {
     month: 'April',
@@ -52,7 +64,7 @@ export const MONTHLY_LAWN_CARE: RasenpflegePlan[] = [
     lueften: true,
     nachsaeen: true,
     duengerTyp: 'ProNatura Frühjahr',
-    duengerMenge: 30
+    duengerMenge: 40
   },
   {
     month: 'Juni',
@@ -75,18 +87,20 @@ export const MONTHLY_LAWN_CARE: RasenpflegePlan[] = [
     waessern: true,
     lueften: false,
     nachsaeen: false,
-    duengerTyp: 'ProNatura Frühjahr',
-    duengerMenge: 30
+    duengerTyp: 'ProNatura Herbst',
+    duengerMenge: 40
   },
   {
     month: 'August',
-    duengen: false,
+    duengen: true,
     maehen: true,
     laufzeitProWoche: '3-4 Tage',
     klingenwechselProMonat: 2,
     waessern: true,
     lueften: false,
-    nachsaeen: false
+    nachsaeen: false,
+    duengerTyp: 'ProNatura Frühjahr',
+    duengerMenge: 30
   },
   {
     month: 'September',
@@ -97,8 +111,8 @@ export const MONTHLY_LAWN_CARE: RasenpflegePlan[] = [
     waessern: false,
     lueften: true,
     nachsaeen: false,
-    duengerTyp: 'ProNatura Herbst',
-    duengerMenge: 40
+    duengerTyp: 'ProNatura Frühjahr',
+    duengerMenge: 35
   },
   {
     month: 'Oktober',
