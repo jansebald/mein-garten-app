@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Calendar, CheckCircle2, Circle, Droplets, Scissors, Wind, Sprout } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { MONTHLY_LAWN_CARE, PERFECT_GREEN_SCHEDULE } from '@/lib/constants';
 
 export const PerfectGreenCalendar: React.FC = () => {
@@ -54,18 +53,12 @@ export const PerfectGreenCalendar: React.FC = () => {
     }
   };
 
-  if (!currentMonthPlan) {
-    return (
-      <Card title="Perfect Green Rasenpflege-Kalender">
-        <p className="text-gray-500">Keine Pläne für den ausgewählten Monat verfügbar.</p>
-      </Card>
-    );
-  }
+  const hasCurrentMonthPlan = !!currentMonthPlan;
 
   return (
     <div className="space-y-4">
       <Card title="Perfect Green Rasenpflege-Kalender">
-        {/* Month Selector */}
+        {/* Month Selector - Always visible */}
         <div className="mb-6">
           <div className="flex overflow-x-auto gap-2 pb-2">
             {months.map((month, index) => (
@@ -85,95 +78,121 @@ export const PerfectGreenCalendar: React.FC = () => {
         </div>
 
         {/* Current Month Activities */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Aktivitäten für {months[selectedMonth]}
-          </h3>
+        {hasCurrentMonthPlan ? (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Aktivitäten für {months[selectedMonth]}
+            </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Düngung */}
-            <div className={`p-4 border rounded-lg ${getPriorityColor('duengen', currentMonthPlan.duengen)}`}>
-              <div className="flex items-center space-x-3 mb-2">
-                {getActivityIcon('duengen')}
-                <span className="font-medium">Düngung</span>
-                {currentMonthPlan.duengen ? (
-                  <CheckCircle2 className="w-4 h-4 text-green-500" />
-                ) : (
-                  <Circle className="w-4 h-4 text-gray-400" />
-                )}
-              </div>
-              {currentMonthPlan.duengen ? (
-                <div className="text-sm space-y-1">
-                  <p><strong>Typ:</strong> {currentMonthPlan.duengerTyp}</p>
-                  <p><strong>Menge:</strong> {currentMonthPlan.duengerMenge}g/m²</p>
-                  <p className="text-xs opacity-75">Bei Temperaturen ab 10°C</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Düngung */}
+              <div className={`p-4 border rounded-lg ${getPriorityColor('duengen', currentMonthPlan?.duengen || false)}`}>
+                <div className="flex items-center space-x-3 mb-2">
+                  {getActivityIcon('duengen')}
+                  <span className="font-medium">Düngung</span>
+                  {currentMonthPlan?.duengen ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Circle className="w-4 h-4 text-gray-400" />
+                  )}
                 </div>
-              ) : (
-                <p className="text-sm opacity-75">Keine Düngung erforderlich</p>
-              )}
-            </div>
-
-            {/* Mähen */}
-            <div className={`p-4 border rounded-lg ${getPriorityColor('maehen', currentMonthPlan.maehen)}`}>
-              <div className="flex items-center space-x-3 mb-2">
-                {getActivityIcon('maehen')}
-                <span className="font-medium">Mähen</span>
-                {currentMonthPlan.maehen ? (
-                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                {currentMonthPlan?.duengen ? (
+                  <div className="text-sm space-y-1">
+                    <p><strong>Typ:</strong> {currentMonthPlan.duengerTyp}</p>
+                    <p><strong>Menge:</strong> {currentMonthPlan.duengerMenge}g/m²</p>
+                    <p className="text-xs opacity-75">Bei Temperaturen ab 10°C</p>
+                  </div>
                 ) : (
-                  <Circle className="w-4 h-4 text-gray-400" />
+                  <p className="text-sm opacity-75">Keine Düngung erforderlich</p>
                 )}
               </div>
-              {currentMonthPlan.maehen ? (
-                <div className="text-sm space-y-1">
-                  <p><strong>Laufzeit:</strong> {currentMonthPlan.laufzeitProWoche}</p>
-                  <p><strong>Klingenwechsel:</strong> {currentMonthPlan.klingenwechselProMonat}x pro Monat</p>
-                  <p className="text-xs opacity-75">Schnitthöhe: 25-50mm</p>
+
+              {/* Mähen */}
+              <div className={`p-4 border rounded-lg ${getPriorityColor('maehen', currentMonthPlan?.maehen || false)}`}>
+                <div className="flex items-center space-x-3 mb-2">
+                  {getActivityIcon('maehen')}
+                  <span className="font-medium">Mähen</span>
+                  {currentMonthPlan?.maehen ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Circle className="w-4 h-4 text-gray-400" />
+                  )}
                 </div>
-              ) : (
-                <p className="text-sm opacity-75">Mähpause</p>
-              )}
-            </div>
-
-            {/* Lüften */}
-            <div className={`p-4 border rounded-lg ${getPriorityColor('lueften', currentMonthPlan.lueften)}`}>
-              <div className="flex items-center space-x-3 mb-2">
-                {getActivityIcon('lueften')}
-                <span className="font-medium">Lüften</span>
-                {currentMonthPlan.lueften ? (
-                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                {currentMonthPlan?.maehen ? (
+                  <div className="text-sm space-y-1">
+                    <p><strong>Laufzeit:</strong> {currentMonthPlan.laufzeitProWoche}</p>
+                    <p><strong>Klingenwechsel:</strong> {currentMonthPlan.klingenwechselProMonat}x pro Monat</p>
+                    <p className="text-xs opacity-75">Schnitthöhe: 25-50mm</p>
+                  </div>
                 ) : (
-                  <Circle className="w-4 h-4 text-gray-400" />
+                  <p className="text-sm opacity-75">Mähpause</p>
                 )}
               </div>
-              <p className="text-sm opacity-75">
-                {currentMonthPlan.lueften 
-                  ? 'Rasen lüften für bessere Nährstoffaufnahme'
-                  : 'Kein Lüften erforderlich'
-                }
-              </p>
-            </div>
 
-            {/* Nachsäen */}
-            <div className={`p-4 border rounded-lg ${getPriorityColor('nachsaeen', currentMonthPlan.nachsaeen)}`}>
-              <div className="flex items-center space-x-3 mb-2">
-                {getActivityIcon('nachsaeen')}
-                <span className="font-medium">Nachsäen</span>
-                {currentMonthPlan.nachsaeen ? (
-                  <CheckCircle2 className="w-4 h-4 text-green-500" />
-                ) : (
-                  <Circle className="w-4 h-4 text-gray-400" />
-                )}
+              {/* Lüften */}
+              <div className={`p-4 border rounded-lg ${getPriorityColor('lueften', currentMonthPlan?.lueften || false)}`}>
+                <div className="flex items-center space-x-3 mb-2">
+                  {getActivityIcon('lueften')}
+                  <span className="font-medium">Lüften</span>
+                  {currentMonthPlan?.lueften ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Circle className="w-4 h-4 text-gray-400" />
+                  )}
+                </div>
+                <p className="text-sm opacity-75">
+                  {currentMonthPlan?.lueften 
+                    ? 'Rasen lüften für bessere Nährstoffaufnahme'
+                    : 'Kein Lüften erforderlich'
+                  }
+                </p>
               </div>
-              <p className="text-sm opacity-75">
-                {currentMonthPlan.nachsaeen 
-                  ? 'Kahle Stellen nachsäen'
-                  : 'Kein Nachsäen erforderlich'
-                }
-              </p>
+
+              {/* Nachsäen */}
+              <div className={`p-4 border rounded-lg ${getPriorityColor('nachsaeen', currentMonthPlan?.nachsaeen || false)}`}>
+                <div className="flex items-center space-x-3 mb-2">
+                  {getActivityIcon('nachsaeen')}
+                  <span className="font-medium">Nachsäen</span>
+                  {currentMonthPlan?.nachsaeen ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Circle className="w-4 h-4 text-gray-400" />
+                  )}
+                </div>
+                <p className="text-sm opacity-75">
+                  {currentMonthPlan?.nachsaeen 
+                    ? 'Kahle Stellen nachsäen'
+                    : 'Kein Nachsäen erforderlich'
+                  }
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Aktivitäten für {months[selectedMonth]}
+            </h3>
+            
+            <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+              <div className="max-w-sm mx-auto">
+                <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                <h4 className="text-lg font-medium text-gray-600 mb-2">
+                  Winterpause für den Rasen
+                </h4>
+                <p className="text-sm text-gray-500 mb-4">
+                  In {months[selectedMonth]} ist keine aktive Rasenpflege erforderlich. 
+                  Der Rasen befindet sich in der Ruhephase.
+                </p>
+                <div className="text-xs text-gray-400">
+                  <p>• Mähroboter pausiert</p>
+                  <p>• Keine Düngung notwendig</p>
+                  <p>• Rasen regeneriert sich</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </Card>
 
       {/* Detailed Schedule */}
