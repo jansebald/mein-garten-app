@@ -18,6 +18,7 @@
             <button class="tab-btn" onclick="showTab('tasks')">Aufgaben</button>
             <button class="tab-btn" onclick="showTab('log')">Protokoll</button>
             <button class="tab-btn" onclick="showTab('stats')">Statistiken</button>
+            <button class="tab-btn" onclick="showTab('settings')">Einstellungen</button>
         </div>
 
         <div id="weather" class="tab-content active">
@@ -52,7 +53,31 @@
             <h2>Statistiken</h2>
             <p id="statsInfo">Statistiken werden geladen...</p>
         </div>
+
+        <div id="settings" class="tab-content">
+            <h2>Einstellungen</h2>
+            <div class="notification-settings">
+                <h3>Benachrichtigungen</h3>
+                <label>
+                    <input type="checkbox" id="enableNotifications"> 
+                    Push-Benachrichtigungen aktivieren
+                </label>
+                <label>
+                    <input type="checkbox" id="monthlyReminders"> 
+                    Monatliche Gartenpflege-Erinnerungen
+                </label>
+                <button onclick="testNotification()">Test-Benachrichtigung senden</button>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        // Service Worker registrieren beim Laden der Seite
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
 </body>
 </html>
