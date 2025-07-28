@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Cloud, Sun, CloudRain, Droplets, Thermometer } from 'lucide-react';
+import { Cloud, Sun, CloudRain, Droplets, Thermometer, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Weather } from '@/types/garden';
 import { weatherService } from '@/lib/weather';
+import { LocationData } from '@/lib/location';
 
 const WeatherIcon: React.FC<{ condition: string; className?: string }> = ({ condition, className = 'w-8 h-8' }) => {
   switch (condition.toLowerCase()) {
@@ -21,6 +22,7 @@ const WeatherIcon: React.FC<{ condition: string; className?: string }> = ({ cond
 
 export const WeatherCard: React.FC = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
+  const [location, setLocation] = useState<LocationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState<Array<{
     type: 'success' | 'warning' | 'info';
@@ -32,7 +34,8 @@ export const WeatherCard: React.FC = () => {
     const fetchWeather = async () => {
       try {
         const weatherData = await weatherService.getCompleteWeather();
-        setWeather(weatherData);
+        setWeather({ current: weatherData.current, forecast: weatherData.forecast });
+        setLocation(weatherData.location);
         setRecommendations(weatherService.getGardenRecommendations(weatherData));
       } catch (error) {
         console.error('Failed to fetch weather:', error);
@@ -46,7 +49,11 @@ export const WeatherCard: React.FC = () => {
 
   if (loading) {
     return (
-      <Card title="Wetter in Kulmbach">
+      <Card>
+        <div className="flex items-center space-x-2 mb-4">
+          <MapPin className="w-5 h-5 text-gray-400" />
+          <div className="h-5 bg-gray-200 rounded animate-pulse w-24"></div>
+        </div>
         <div className="animate-pulse space-y-4">
           <div className="h-20 bg-gray-200 rounded"></div>
           <div className="h-16 bg-gray-200 rounded"></div>
@@ -55,9 +62,13 @@ export const WeatherCard: React.FC = () => {
     );
   }
 
-  if (!weather) {
+  if (!weather || !location) {
     return (
-      <Card title="Wetter in Kulmbach">
+      <Card>
+        <div className="flex items-center space-x-2 mb-4">
+          <MapPin className="w-5 h-5 text-gray-400" />
+          <span className="text-gray-500">Standort unbekannt</span>
+        </div>
         <p className="text-gray-500">Wetterdaten konnten nicht geladen werden.</p>
       </Card>
     );
@@ -78,7 +89,15 @@ export const WeatherCard: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <Card title="Wetter in Kulmbach">
+      <Card>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <MapPin className="w-5 h-5 text-primary-600" />
+            <h3 className="text-lg font-semibold text-gray-900">
+              Wetter in {location.city}
+            </h3>
+          </div>
+        </div>
         <div className="space-y-4">
           {/* Current Weather */}
           <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">

@@ -184,7 +184,20 @@ export const SEED_DEFAULTS: SeedDefaults = {
 
 export const WEATHER_CONFIG = {
   API_KEY: '56264ccb35096bfc39b5c7d42544283f',
-  CITY: 'Kulmbach',
-  LAT: 50.1047,
-  LON: 11.3563
+  DEFAULT_CITY: 'Happurg',
+  DEFAULT_LAT: 49.5181,
+  DEFAULT_LON: 11.5167
 };
+
+export const COMMON_LOCATIONS = [
+  { name: 'Happurg', lat: 49.5181, lon: 11.5167, state: 'Bayern' },
+  { name: 'Kulmbach', lat: 50.1047, lon: 11.3563, state: 'Bayern' },
+  { name: 'Nürnberg', lat: 49.4521, lon: 11.0767, state: 'Bayern' },
+  { name: 'Bamberg', lat: 49.8988, lon: 10.9027, state: 'Bayern' },
+  { name: 'Erlangen', lat: 49.5897, lon: 11.0040, state: 'Bayern' },
+  { name: 'Fürth', lat: 49.4771, lon: 10.9906, state: 'Bayern' },
+  { name: 'Bayreuth', lat: 49.9429, lon: 11.5764, state: 'Bayern' },
+  { name: 'München', lat: 48.1351, lon: 11.5820, state: 'Bayern' },
+  { name: 'Berlin', lat: 52.5200, lon: 13.4050, state: 'Berlin' },
+  { name: 'Hamburg', lat: 53.5511, lon: 9.9937, state: 'Hamburg' },
+];

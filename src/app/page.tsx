@@ -1,16 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Plus } from 'lucide-react';
 import { Navigation } from '@/components/ui/Navigation';
 import { WeatherCard } from '@/components/cards/WeatherCard';
 import { ActivityOverview } from '@/components/cards/ActivityOverview';
 import { PerfectGreenCalendar } from '@/components/cards/PerfectGreenCalendar';
 import { Calculator } from '@/components/cards/Calculator';
+import { LocationSettings } from '@/components/cards/LocationSettings';
 import { FertilizerForm } from '@/components/forms/FertilizerForm';
 import { SeedingForm } from '@/components/forms/SeedingForm';
 import { EntryList } from '@/components/forms/EntryList';
 import { Button } from '@/components/ui/Button';
+import { weatherService } from '@/lib/weather';
 
 const Dashboard: React.FC = () => {
   return (
@@ -88,9 +90,17 @@ const GardenDiary: React.FC = () => {
 };
 
 const WeatherPage: React.FC = () => {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleLocationUpdate = () => {
+    // Force weather card to refresh when location changes
+    setRefreshTrigger(prev => prev + 1);
+  };
+
   return (
     <div className="space-y-6">
-      <WeatherCard />
+      <LocationSettings onLocationUpdate={handleLocationUpdate} />
+      <WeatherCard key={refreshTrigger} />
       <PerfectGreenCalendar />
     </div>
   );
@@ -106,6 +116,20 @@ const CalculatorPage: React.FC = () => {
 
 export default function Home() {
   const [currentTab, setCurrentTab] = useState('dashboard');
+  const [headerLocation, setHeaderLocation] = useState('Happurg');
+  
+  useEffect(() => {
+    const loadHeaderLocation = async () => {
+      try {
+        const location = await weatherService.getCurrentLocation();
+        setHeaderLocation(location.city);
+      } catch (error) {
+        console.error('Failed to load header location:', error);
+      }
+    };
+    
+    loadHeaderLocation();
+  }, []);
   
   const renderContent = () => {
     switch (currentTab) {
@@ -131,7 +155,7 @@ export default function Home() {
             <h1 className="text-xl font-bold">Mein Garten</h1>
             <div className="flex items-center text-sm opacity-90">
               <MapPin className="w-4 h-4 mr-1" />
-              Kulmbach
+              {headerLocation}
             </div>
           </div>
         </div>

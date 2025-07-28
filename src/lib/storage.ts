@@ -11,6 +11,9 @@ export interface UserSettings {
   lawnType: string;
   reminderEnabled: boolean;
   weatherLocation: string;
+  locationLat?: number;
+  locationLon?: number;
+  useGPS: boolean;
 }
 
 class StorageManager {
@@ -141,7 +144,10 @@ class StorageManager {
       lawnArea: 0,
       lawnType: 'sportrasen',
       reminderEnabled: true,
-      weatherLocation: 'Kulmbach',
+      weatherLocation: 'Happurg',
+      locationLat: 49.5181,
+      locationLon: 11.5167,
+      useGPS: false,
     });
   }
 

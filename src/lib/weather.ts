@@ -1,6 +1,7 @@
 import { Weather } from '@/types/garden';
 import { WEATHER_CONFIG } from './constants';
 import { storage } from './storage';
+import { locationService, LocationData } from './location';
 
 class WeatherService {
   private baseUrl = 'https://api.openweathermap.org/data/2.5';
@@ -12,8 +13,11 @@ class WeatherService {
         return cachedData.current;
       }
 
+      // Get current location (GPS or saved location)
+      const location = await locationService.getLocationForWeather();
+      
       const response = await fetch(
-        `${this.baseUrl}/weather?q=${WEATHER_CONFIG.CITY}&appid=${WEATHER_CONFIG.API_KEY}&units=metric&lang=de`
+        `${this.baseUrl}/weather?lat=${location.lat}&lon=${location.lon}&appid=${WEATHER_CONFIG.API_KEY}&units=metric&lang=de`
       );
 
       if (!response.ok) {
@@ -47,8 +51,11 @@ class WeatherService {
         return cachedData.forecast;
       }
 
+      // Get current location (GPS or saved location)
+      const location = await locationService.getLocationForWeather();
+
       const response = await fetch(
-        `${this.baseUrl}/forecast?q=${WEATHER_CONFIG.CITY}&appid=${WEATHER_CONFIG.API_KEY}&units=metric&lang=de`
+        `${this.baseUrl}/forecast?lat=${location.lat}&lon=${location.lon}&appid=${WEATHER_CONFIG.API_KEY}&units=metric&lang=de`
       );
 
       if (!response.ok) {
@@ -74,13 +81,18 @@ class WeatherService {
     }
   }
 
-  async getCompleteWeather(): Promise<Weather> {
+  async getCompleteWeather(): Promise<Weather & { location: LocationData }> {
+    const location = await locationService.getLocationForWeather();
     const [current, forecast] = await Promise.all([
       this.getCurrentWeather(),
       this.getWeatherForecast()
     ]);
 
-    return { current, forecast };
+    return { current, forecast, location };
+  }
+
+  async getCurrentLocation(): Promise<LocationData> {
+    return await locationService.getLocationForWeather();
   }
 
   private processForecastData(forecastList: any[]): Weather['forecast'] {
