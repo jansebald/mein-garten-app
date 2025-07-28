@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasenpflege</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <div class="container">
+        <h1>Rasenpflege</h1>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="showTab('weather')">Wetter</button>
+            <button class="tab-btn" onclick="showTab('tasks')">Aufgaben</button>
+            <button class="tab-btn" onclick="showTab('log')">Protokoll</button>
+            <button class="tab-btn" onclick="showTab('stats')">Statistiken</button>
+        </div>
+
+        <div id="weather" class="tab-content active">
+            <h2>Wetter</h2>
+            <p id="weatherInfo">Wetter wird geladen...</p>
+        </div>
+
+        <div id="tasks" class="tab-content">
+            <h2>Aufgaben</h2>
+            <ul id="taskList">
+                <li>Düngen (empfohlen: März, Juni, September)</li>
+                <li>Lüften (empfohlen: Frühjahr oder Herbst)</li>
+                <li>Mähen (empfohlen: wöchentlich im Sommer)</li>
+            </ul>
+        </div>
+
+        <div id="log" class="tab-content">
+            <h2>Protokoll</h2>
+            <select id="taskCategory">
+                <option value="Düngen">Düngen</option>
+                <option value="Lüften">Lüften</option>
+                <option value="Mähen">Mähen</option>
+                <option value="Sonstiges">Sonstiges</option>
+            </select>
+            <input type="text" id="taskInput" placeholder="Was hast du gemacht?">
+            <input type="date" id="reminderDate" placeholder="Erinnerung">
+            <button onclick="addTask()">Eintragen</button>
+            <ul id="logList"></ul>
+        </div>
+
+        <div id="stats" class="tab-content">
+            <h2>Statistiken</h2>
+            <p id="statsInfo">Statistiken werden geladen...</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
