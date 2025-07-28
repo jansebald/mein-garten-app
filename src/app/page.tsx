@@ -9,6 +9,7 @@ import { PerfectGreenCalendar } from '@/components/cards/PerfectGreenCalendar';
 import { Calculator } from '@/components/cards/Calculator';
 import { LocationSettings } from '@/components/cards/LocationSettings';
 import { NotificationSettings } from '@/components/cards/NotificationSettings';
+import { WeatherCheck } from '@/components/cards/WeatherCheck';
 import { FertilizerForm } from '@/components/forms/FertilizerForm';
 import { SeedingForm } from '@/components/forms/SeedingForm';
 import { EntryList } from '@/components/forms/EntryList';
@@ -19,6 +20,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       <WeatherCard />
+      <WeatherCheck />
       <ActivityOverview />
       <PerfectGreenCalendar />
     </div>
