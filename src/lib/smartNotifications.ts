@@ -28,9 +28,11 @@ class SmartNotificationService {
 
       // 2. Bewässerung bei Hitze
       if (temp > 25 && upcomingRain < 1) {
+        const waterAmount = temp > 30 ? '20L/m²' : '15L/m²';
+        const timing = temp > 28 ? 'früh 6-8 Uhr' : 'morgens';
         return {
           title: '🌡️ Rasen bewässern',
-          body: `${temp}°C, kein Regen: 15L/m² morgens gießen`,
+          body: `${temp}°C: ${waterAmount} ${timing} gießen`,
           priority: 'high',
           type: 'watering'
         };
@@ -38,9 +40,11 @@ class SmartNotificationService {
 
       // 3. Lüftung (Frühjahr/Herbst bei geeignetem Wetter)
       if ([2, 3, 8, 9].includes(month) && this.shouldRecommendAeration(weather)) {
+        const tool = month <= 3 ? 'Vertikutierer' : 'Aerifizierer';
+        const depth = month <= 3 ? '2-4mm tief' : '5-8cm tief';
         return {
           title: '🌱 Rasen lüften',
-          body: `Perfekte Bedingungen: ${temp}°C, nicht zu nass`,
+          body: `${tool} ${depth} bei ${temp}°C nutzen`,
           priority: 'medium',
           type: 'aeration'
         };
@@ -92,20 +96,49 @@ class SmartNotificationService {
   private getFertilizerNotification(weather: Weather, upcomingRain: number): SmartNotification {
     const temp = weather.current.temp;
     const month = new Date().getMonth();
+    const today = new Date();
+    const recommendedDate = this.getOptimalFertilizerDate(weather, month);
     
-    let fertilizerType = 'Dünger';
-    if (month === 2) fertilizerType = 'Frühjahrsdünger';
-    else if (month === 5) fertilizerType = 'Sommerdünger';
-    else if (month === 8) fertilizerType = 'Herbstdünger';
+    let fertilizerInfo = { type: 'Dünger', amount: '25g/m²' };
+    if (month === 2) fertilizerInfo = { type: 'ProNatura Frühjahr', amount: '30g/m²' };
+    else if (month === 5) fertilizerInfo = { type: 'ProNatura Sommer', amount: '25g/m²' };
+    else if (month === 8) fertilizerInfo = { type: 'ProNatura Herbst', amount: '35g/m²' };
 
-    const rainInfo = upcomingRain > 3 ? ', Regen kommt' : '';
+    const dateInfo = recommendedDate ? ` am ${recommendedDate.getDate()}.${recommendedDate.getMonth() + 1}.` : '';
+    const rainReason = upcomingRain > 3 ? ' (Regen erwartet)' : upcomingRain > 1 ? ' (leichter Regen)' : '';
     
     return {
-      title: `🌿 ${fertilizerType} streuen`,
-      body: `${temp}°C optimal${rainInfo}. Jetzt düngen!`,
+      title: `🌿 ${fertilizerInfo.type}`,
+      body: `${fertilizerInfo.amount}${dateInfo} bei ${temp}°C${rainReason}`,
       priority: 'high',
       type: 'fertilizer'
     };
+  }
+
+  private getOptimalFertilizerDate(weather: Weather, month: number): Date | null {
+    const today = new Date();
+    const forecast = weather.forecast;
+    
+    // Find best day in next 3 days based on rain forecast
+    for (let i = 0; i < forecast.length; i++) {
+      const day = forecast[i];
+      if (day.rain > 1 && day.rain < 8) { // Good amount of rain, not too much
+        const date = new Date(today);
+        date.setDate(today.getDate() + i + 1);
+        return date;
+      }
+    }
+    
+    // If no perfect day found, suggest mid-month optimal dates
+    const optimalDates = [15, 20, 25];
+    for (const dayOfMonth of optimalDates) {
+      const date = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
+      if (date > today) {
+        return date;
+      }
+    }
+    
+    return null;
   }
 
   private getMonthlyTip(month: number, weather: Weather): SmartNotification {
