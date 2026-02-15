@@ -1,10 +1,10 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Mein Garten - Rasenpflege Manager',
-  description: 'Professionelle Rasenpflege mit Perfect Green Mähroboter',
-  manifest: '/manifest.json',
+  description: 'Professionelle Rasenpflege mit Perfect Green Mähroboter. Verwalte Düngungen, Aussaaten und erhalte wetterbasierte Empfehlungen.',
+  applicationName: 'Mein Garten',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -19,14 +19,21 @@ export const metadata: Metadata = {
     title: 'Mein Garten - Rasenpflege Manager',
     description: 'Professionelle Rasenpflege mit Perfect Green Mähroboter',
   },
-  icons: {
-    icon: '/mein-garten-app/icon-32.ico',
-    shortcut: '/mein-garten-app/icon-180.png',
-    apple: [
-      { url: '/mein-garten-app/icon-180.png' },
-      { url: '/mein-garten-app/icon-180.png', sizes: '180x180', type: 'image/png' },
-    ],
+  twitter: {
+    card: 'summary',
+    title: 'Mein Garten - Rasenpflege Manager',
+    description: 'Professionelle Rasenpflege mit Perfect Green Mähroboter',
   },
+  manifest: '/manifest.json',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: '#22c55e',
 }
 
 export default function RootLayout({
@@ -35,19 +42,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de">
+    <html lang="de" className="h-full">
       <head>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Mein Garten" />
+        <link rel="apple-touch-icon" href="/icon-180.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <link rel="apple-touch-icon" href="/mein-garten-app/icon-180.png" />
-        <link rel="icon" type="image/x-icon" sizes="32x32" href="/mein-garten-app/icon-32.ico" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/mein-garten-app/icon-192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/mein-garten-app/icon-512.png" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body>{children}</body>
+      <body className="h-full overflow-hidden">{children}</body>
     </html>
   )
 }

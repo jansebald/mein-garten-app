@@ -1,4 +1,4 @@
-import { GardenEntry } from '@/types/garden';
+import { GardenEntry, Weather } from '@/types/garden';
 
 const STORAGE_KEYS = {
   GARDEN_ENTRIES: 'mein-garten-entries',
@@ -157,7 +157,7 @@ class StorageManager {
   }
 
   // Weather Cache
-  cacheWeatherData(data: any): void {
+  cacheWeatherData(data: Weather): void {
     const cacheData = {
       data,
       timestamp: Date.now(),
@@ -166,8 +166,14 @@ class StorageManager {
     this.setItem(STORAGE_KEYS.WEATHER_CACHE, cacheData);
   }
 
-  getCachedWeatherData(): any | null {
-    const cached = this.getItem<any>(STORAGE_KEYS.WEATHER_CACHE, null);
+  getCachedWeatherData(): Weather | null {
+    interface CachedWeather {
+      data: Weather;
+      timestamp: number;
+      expiresIn: number;
+    }
+    
+    const cached = this.getItem<CachedWeather | null>(STORAGE_KEYS.WEATHER_CACHE, null);
     if (!cached || !cached.timestamp || !cached.expiresIn) return null;
 
     const isExpired = Date.now() - cached.timestamp > cached.expiresIn;

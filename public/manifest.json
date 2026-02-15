@@ -10,37 +10,42 @@
   "scope": "/",
   "categories": ["productivity", "lifestyle"],
   "lang": "de",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/mein-garten-app/icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/mein-garten-app/icon-512.png", 
+      "src": "/icon-512.png", 
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/mein-garten-app/icon-180.png",
+      "src": "/icon-180.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "apple-touch-icon"
     }
   ],
-  "screenshots": [
+  "shortcuts": [
     {
-      "src": "/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "name": "Neue Düngung",
+      "short_name": "Düngen",
+      "description": "Neue Düngung hinzufügen",
+      "url": "/?action=fertilizer",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "src": "/screenshot-desktop.png", 
-      "sizes": "1280x800",
-      "type": "image/png",
-      "form_factor": "wide"
+      "name": "Wetter",
+      "short_name": "Wetter",
+      "description": "Aktuelle Wetterdaten anzeigen",
+      "url": "/?tab=wetter",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

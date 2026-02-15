@@ -5,7 +5,6 @@ import { CheckCircle, XCircle, Calendar, Thermometer, CloudRain } from 'lucide-r
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { weatherService } from '@/lib/weather';
-import { smartNotificationService } from '@/lib/smartNotifications';
 
 interface WeatherAdvice {
   shouldFertilize: boolean;

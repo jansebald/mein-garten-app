@@ -15,9 +15,7 @@ class SmartNotificationService {
       const weather = await weatherService.getCompleteWeather();
       const month = new Date().getMonth();
       const temp = weather.current.temp;
-      const rain = weather.current.precipitation;
       const upcomingRain = weather.forecast.slice(0, 2).reduce((sum, day) => sum + day.rain, 0);
-      const humidity = weather.current.humidity;
 
       // Priorisierte Empfehlungen basierend auf Wetter und Saison
       

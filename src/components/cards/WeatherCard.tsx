@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Cloud, Sun, CloudRain, Droplets, Thermometer, MapPin } from 'lucide-react';
+import { Cloud, Sun, CloudRain, Droplets, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Weather } from '@/types/garden';
 import { weatherService } from '@/lib/weather';

@@ -24,9 +24,23 @@ class WeatherService {
         throw new Error(`Weather API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      interface OpenWeatherResponse {
+        main: {
+          temp: number;
+          humidity: number;
+        };
+        weather: Array<{
+          main: string;
+          description: string;
+        }>;
+        rain?: {
+          '1h': number;
+        };
+      }
 
-      const weatherData = {
+      const data: OpenWeatherResponse = await response.json();
+
+      const weatherData: Weather['current'] = {
         temp: Math.round(data.main.temp),
         condition: data.weather[0].main,
         description: data.weather[0].description,
@@ -35,7 +49,7 @@ class WeatherService {
       };
 
       // Cache the data
-      storage.cacheWeatherData({ current: weatherData });
+      storage.cacheWeatherData({ current: weatherData, forecast: [] });
       
       return weatherData;
     } catch (error) {
@@ -47,7 +61,7 @@ class WeatherService {
   async getWeatherForecast(): Promise<Weather['forecast']> {
     try {
       const cachedData = storage.getCachedWeatherData();
-      if (cachedData?.forecast) {
+      if (cachedData?.forecast && cachedData.forecast.length > 0) {
         return cachedData.forecast;
       }
 
@@ -62,7 +76,26 @@ class WeatherService {
         throw new Error(`Forecast API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      interface OpenWeatherForecastItem {
+        dt: number;
+        main: {
+          temp_max: number;
+          temp_min: number;
+        };
+        weather: Array<{
+          main: string;
+          description: string;
+        }>;
+        rain?: {
+          '3h': number;
+        };
+      }
+
+      interface OpenWeatherForecastResponse {
+        list: OpenWeatherForecastItem[];
+      }
+
+      const data: OpenWeatherForecastResponse = await response.json();
 
       // Group by day and take daily forecasts
       const dailyForecasts = this.processForecastData(data.list);
@@ -70,7 +103,7 @@ class WeatherService {
       // Cache the data
       const currentCached = storage.getCachedWeatherData();
       storage.cacheWeatherData({ 
-        ...currentCached,
+        current: currentCached?.current || this.getMockCurrentWeather(),
         forecast: dailyForecasts 
       });
       
@@ -95,8 +128,13 @@ class WeatherService {
     return await locationService.getLocationForWeather();
   }
 
-  private processForecastData(forecastList: any[]): Weather['forecast'] {
-    const dailyData = new Map<string, any>();
+  private processForecastData(forecastList: Array<{
+    dt: number;
+    main: { temp_max: number; temp_min: number };
+    weather: Array<{ main: string; description: string }>;
+    rain?: { '3h': number };
+  }>): Weather['forecast'] {
+    const dailyData = new Map<string, Weather['forecast'][0]>();
 
     forecastList.forEach(item => {
       const date = new Date(item.dt * 1000);

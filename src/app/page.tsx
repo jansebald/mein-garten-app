@@ -160,29 +160,35 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-primary-500 text-white shadow-lg">
-        <div className="px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">Mein Garten</h1>
-            <div className="flex items-center text-sm opacity-90">
-              <MapPin className="w-4 h-4 mr-1" />
-              {headerLocation}
+    <div className="h-full flex flex-col bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+      {/* Native iOS-style Header */}
+      <header className="flex-shrink-0 pt-safe">
+        <div className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
+          <div className="px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                  Mein Garten
+                </h1>
+                <div className="flex items-center text-sm text-gray-500 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5 mr-1" />
+                  {headerLocation}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 pb-20">
-        {renderContent()}
+      {/* Main Content with native scroll */}
+      <main className="flex-1 overflow-y-auto scrollbar-thin">
+        <div className="px-4 py-6 pb-24 space-y-4 animate-fade-in">
+          {renderContent()}
+        </div>
       </main>
 
-      {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0">
-        <Navigation currentTab={currentTab} onTabChange={setCurrentTab} />
-      </div>
+      {/* Native Bottom Navigation */}
+      <Navigation currentTab={currentTab} onTabChange={setCurrentTab} />
     </div>
   );
 }

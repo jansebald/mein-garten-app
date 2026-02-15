@@ -1,8 +1,18 @@
 # 🌱 Mein Garten - Rasenpflege Manager
 
-Eine professionelle Web-App für die Rasenpflege mit Perfect Green Mähroboter-Integration.
+Eine **native iOS/Android-style** Web-App für professionelle Rasenpflege mit Perfect Green Mähroboter-Integration.
 
-![App Screenshot](https://via.placeholder.com/800x400/16a34a/ffffff?text=Mein+Garten+App)
+## ✨ Modern Native UI Design
+
+![Native UI Design](https://via.placeholder.com/800x400/22c55e/ffffff?text=Moderne+Native+UI)
+
+### 🎨 Design Highlights
+- **Glassmorphism Effects** - iOS 15+ inspired backdrop blur
+- **Native Bottom Tab Bar** - Smooth transitions & active states  
+- **Smooth Animations** - 60fps fade, slide & scale effects
+- **Touch Optimized** - Active states mit native press feedback
+- **Gradient Background** - Subtle green-emerald-teal verlauf
+- **Modern Components** - Rounded corners, soft shadows, blur effects
 
 ## 🎯 Features
 
@@ -60,12 +70,14 @@ npm start
 
 ## 🛠️ Technologie
 
-- **Framework**: Next.js 14 mit TypeScript
-- **Styling**: Tailwind CSS
+- **Framework**: Next.js 15 mit TypeScript
+- **Styling**: Tailwind CSS 3.4 mit Custom Design System
+- **UI Pattern**: Native iOS/Android-inspired Components
+- **Design**: Glassmorphism, Backdrop Blur, Smooth Animations
 - **Icons**: Lucide React
 - **API**: OpenWeatherMap
 - **Storage**: Browser LocalStorage
-- **PWA**: Offline-fähig, installierbar
+- **PWA**: next-pwa mit Workbox - Offline-fähig, installierbar
 
 ## 📊 Datenstruktur
 
@@ -102,18 +114,47 @@ Standard-Standort: **Kulmbach, Bayern**
 
 ## 🔧 Konfiguration
 
-### Umgebungsvariablen (.env.local)
-```env
-NEXT_PUBLIC_OPENWEATHER_API_KEY=your_api_key
-NEXT_PUBLIC_LOCATION_LAT=50.1047
-NEXT_PUBLIC_LOCATION_LON=11.3563
+### Umgebungsvariablen
+
+⚠️ **Wichtig**: Niemals API-Keys in Git committen!
+
+1. Kopieren Sie `.env.example` nach `.env.local`:
+```bash
+cp .env.example .env.local
 ```
+
+2. Tragen Sie Ihren API-Key ein:
+```env
+NEXT_PUBLIC_OPENWEATHER_API_KEY=your_api_key_here
+NEXT_PUBLIC_LOCATION_LAT=49.5181
+NEXT_PUBLIC_LOCATION_LON=11.5167
+```
+
+3. Kostenlosen API-Key erhalten:
+   - Registrieren Sie sich auf [OpenWeatherMap](https://openweathermap.org/api)
+   - Wählen Sie den "Free Plan" (60 calls/minute)
+   - Kopieren Sie Ihren API-Key in `.env.local`
 
 ## 🎨 Design
 
-- **Farbschema**: Grün-basiert (#16a34a primary, #22c55e secondary)
-- **Responsive**: Mobile-first Design
-- **Touch-optimiert**: Große Buttons für mobile Nutzung
+### Native UI Components
+- **Cards**: Glassmorphism mit backdrop blur (default, glass, elevated variants)
+- **Buttons**: 6 Variants mit loading states und icons
+- **Inputs**: Modern rounded-xl mit focus rings
+- **Navigation**: iOS-style Bottom Tab Bar mit blur
+- **Animations**: Smooth fade, slide, scale transitions
+
+### Design System
+- **Farbpalette**: Green-based (Primary 50-900) mit Teal & Amber accents
+- **Shadows**: Soft, medium, strong elevations
+- **Border Radius**: 1rem, 1.5rem, 2rem (xl, 2xl, 3xl)
+- **Typography**: System fonts (-apple-system, Roboto, Segoe UI)
+- **Spacing**: Safe area insets für iOS/Android Notch
+
+### Mobile-First
+- **Responsive**: Native mobile patterns
+- **Touch-optimiert**: 44x44px min tap targets
+- **Safe Areas**: iPhone Notch/Home Indicator Support
 - **Deutsche Lokalisierung**: Komplett auf Deutsch
 
 ## 📝 Lizenz

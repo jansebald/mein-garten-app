@@ -29,21 +29,10 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = () => {
     if ('Notification' in window) {
       setPermission(Notification.permission);
     }
-
-    // Register service worker if not already registered
-    registerServiceWorker();
   }, []);
 
-  const registerServiceWorker = async () => {
-    if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.register('/service-worker.js');
-        console.log('Service Worker registered:', registration);
-      } catch (error) {
-        console.error('Service Worker registration failed:', error);
-      }
-    }
-  };
+  // Service Worker is auto-registered by next-pwa in production
+  // No manual registration needed
 
   const requestNotificationPermission = async () => {
     if (!('Notification' in window)) {

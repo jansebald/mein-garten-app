@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Trash2, Edit, Droplets, Scissors, Sprout, Calendar } from 'lucide-react';
+import { Trash2, Droplets, Scissors, Sprout, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { storage } from '@/lib/storage';
